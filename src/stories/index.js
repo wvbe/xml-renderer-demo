@@ -6,14 +6,16 @@ import { linkTo } from '@storybook/addon-links';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+import RenderedDocument, { withAsyncDocumentLoader } from '../components/RenderedDocument';
+import { withCatch } from '../components/RenderedError';
 
-storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
-  ));
+import rssExperience from './rssExperience';
+
+// Render promised documents or as an error
+const DocumentFromPublicDir = withAsyncDocumentLoader((documentId) => fetch('/xml/' + documentId)
+  .then(response => response.text())
+  .then(content => ({ documentId, content })),
+withCatch(RenderedDocument));
+
+storiesOf('Documents', module)
+  .add('nasa.rss', () => <DocumentFromPublicDir documentId='nasa.rss' experience={rssExperience} />)
