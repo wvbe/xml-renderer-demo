@@ -1,16 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Vollkorn');
 
-body {
+.document-showcase-tabs {
+	font-family: -apple-system,".SFNSText-Regular","San Francisco",BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Lucida Grande","Arial",sans-serif;
+    color: #444;
+    font-size: 13px;
+}
+.document-showcase-content {
 	font-family: Vollkorn;
-	padding: 2em;
-	max-width: 48em;
-	margin: auto;
 }
 
 h1 {
 	font-size: 2em;
 	font-weight: bold;
 }
+
 h2 {
 	font-size: 1.6em;
 	font-weight: bold;
