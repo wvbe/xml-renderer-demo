@@ -24,5 +24,6 @@ yarn-error.log*
 
 # storybook?
 /.cache
+/storybook-static
 
 /package-lock.json

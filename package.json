@@ -15,7 +15,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+	"build-storybook": "build-storybook -s public",
+	"gh-pages": "gh-pages --dist storybook-static --repo git@github.com:wvbe/xml-renderer",
+	"deploy": "npm run build-storybook && npm run gh-pages"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,10 +29,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@storybook/react": "^4.0.8",
+    "@babel/core": "^7.1.6",
     "@storybook/addon-options": "^4.0.8",
     "@storybook/addons": "^4.0.8",
-    "@babel/core": "^7.1.6",
-    "babel-loader": "^8.0.4"
-  }
+    "@storybook/react": "^4.0.8",
+    "babel-loader": "^8.0.4",
+    "gh-pages": "^2.0.1"
+  },
+  "homepage": "."
 }
