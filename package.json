@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "fontoxpath": "^3.0.0-alpha.5",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
@@ -15,9 +16,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-	"build-storybook": "build-storybook -s public",
-	"gh-pages": "gh-pages --dist storybook-static --repo git@github.com:wvbe/xml-renderer",
-	"deploy": "npm run build-storybook && npm run gh-pages"
+    "build-storybook": "build-storybook -s public",
+    "gh-pages": "gh-pages --dist storybook-static --repo git@github.com:wvbe/xml-renderer",
+    "deploy": "npm run build-storybook && npm run gh-pages"
   },
   "eslintConfig": {
     "extends": "react-app"

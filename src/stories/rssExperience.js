@@ -28,7 +28,7 @@ xp.register('self::item', ({ key, traverse, query }) => <li key={ key() }>
 		</span>
 	</p>
 
-	{ traverse('./description') }
+	<p>{ traverse('./description') }</p>
 </li>);
 
 xp.register('self::title[parent::item]', ({ key, traverse }) => <strong key={ key() }>

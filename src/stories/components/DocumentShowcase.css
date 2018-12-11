@@ -1,6 +1,7 @@
 html, body, #root {
 	height: 100%;
 	width: 100%;
+	margin: 0;
 }
 
 #root {
@@ -22,6 +23,8 @@ html, body, #root {
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
+	font-family: -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Lucida Grande", "Arial", sans-serif;
+	font-size: 13px;
 }
 
 .document-showcase-tabs > div {
