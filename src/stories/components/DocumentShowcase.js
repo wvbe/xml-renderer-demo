@@ -1,14 +1,12 @@
+/**
+ * A wrapper for the Storybook stories, with tabs to see the rendering or XML source for each demonstrated document.
+ */
 import './DocumentShowcase.css';
 
 import React, { Component } from 'react';
 
 import DocumentFromPublicDir from './DocumentFromPublicDir';
 import sourceViewExperience from '../sourceViewExperience';
-
-import Experience from 'xml-renderer';
-const flatEarthExperience = new Experience();
-flatEarthExperience.register('self::text()', ({ node }) => node().nodeValue);
-flatEarthExperience.register('self::node()', ({ traverse }) => traverse());
 
 export default class DocumentShowcase extends Component {
 	tabs = [

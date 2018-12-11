@@ -1,13 +1,16 @@
+/**
+ * Storybook.
+ */
+
 import React from 'react';
-
 import { storiesOf } from '@storybook/react';
-
-import rssExperience from './rssExperience';
-import shakespeareExperience from './shakespeareExperience';
-import xmlSpecExperience from './xmlSpecExperience';
 import DocumentShowcase from './components/DocumentShowcase';
 
+import nasaExperience from './nasaExperience';
+import macbethExperience from './macbethExperience';
+import xmlSpecExperience from './xmlSpecExperience';
+
 storiesOf('Documents', module)
-  .add('nasa.rss', () => <DocumentShowcase documentId='nasa.rss' experience={rssExperience} />)
-  .add('macbeth.xml', () => <DocumentShowcase documentId='macbeth.xml' experience={shakespeareExperience} />)
+  .add('nasa.rss', () => <DocumentShowcase documentId='nasa.rss' experience={nasaExperience} />)
+  .add('macbeth.xml', () => <DocumentShowcase documentId='macbeth.xml' experience={macbethExperience} />)
   .add('xml-spec.xml', () => <DocumentShowcase documentId='xml-spec.xml' experience={xmlSpecExperience} />)

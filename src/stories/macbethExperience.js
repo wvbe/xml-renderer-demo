@@ -1,11 +1,15 @@
+/**
+ * A simple transformation of Shakespeare's MacBeth (XML version by Jon Bosak, 1996-1998) into a very basic webpage.
+ */
+
 import React from 'react';
 import Experience from 'xml-renderer';
 
 const xp = new Experience();
 
-xp.register('self::text()', ({ node }) => node().nodeValue);
-
+// By default, nodes only render their children and text nodes render as text.
 xp.register('self::node()', ({ traverse }) => traverse());
+xp.register('self::text()', ({ node }) => node().nodeValue);
 
 xp.register('self::P', ({ key, traverse }) => <p key={ key() }>
 	{ traverse() }

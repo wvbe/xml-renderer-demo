@@ -1,23 +1,38 @@
+/**
+ * Transforms the XML W3C recommendation, which is published in XML, to an HTML page that approximates the functionality
+ * of the W3C's webpage.
+ *
+ * - Contains a clickable table of contents generated from the XML
+ * - Section headers are dynamically numbered
+ * - Cross references to sections, term definitions, etc.
+ */
+
 import React from 'react';
 import Experience from 'xml-renderer';
 import * as fontoxpath from 'fontoxpath';
 
-// I don't feel like repeating this selector a couple of times, so making it a var
-const divXpathTest = 'self::div1 or self::div2 or self::div3';
+import flatEarthExperience from './flatEarthExperience';
 
-// Get the section number for a given node. This function is useful for rendering the title of a section.
+// An XPath test to assert wether a node is one of the elements that determine this document's hierarchy of sections.
+// I'd die for the DRY.
+const isDivElement = 'self::div1 or self::div2 or self::div3';
+
+/**
+ * Get the section number (eg. "1.2.2") for a given node. This function is useful for rendering the title of a section.
+ * @param {Node} node
+ * @returns {string}
+ */
 function getDivNumber (node) {
-	return fontoxpath.evaluateXPathToNodes(`./ancestor-or-self::*[${divXpathTest}]`, node)
-		.map(divNode => fontoxpath.evaluateXPathToNumber(`count(preceding-sibling::*[${divXpathTest}])`, divNode))
+	return fontoxpath.evaluateXPathToNodes(`./ancestor-or-self::*[${isDivElement}]`, node)
+		.map(divNode => fontoxpath.evaluateXPathToNumber(`count(preceding-sibling::*[${isDivElement}])`, divNode))
 		.map(number => number + 1)
 		.join('.');
 }
 
-const xp = new Experience();
-
-// By default, text nodes are rendered as text and other nodes only render their children
-xp.register('self::text()', ({ node }) => node().nodeValue);
-xp.register('self::node()', ({ traverse }) => traverse());
+const xp = new Experience(
+	// This experience can use components from another Experience
+	flatEarthExperience
+);
 
 /*
  * Regular content, inlines, and elements that are a one-to-one translation to HTML
@@ -106,7 +121,12 @@ xp.register('self::prod', ({ key, traverse, query }) => <tr key={ key() }>
 /*
  * Structural elements
  */
-xp.register(divXpathTest, ({ key, traverse }) => <div key={ key() }>
+// <div1>, <div2> and <div3>, which might as well be all the same if you ask me.
+xp.register(isDivElement, ({ key, traverse }) => <div key={ key() } style={{
+	paddingLeft: '1em',
+	borderLeft: '0.5em solid #eeeeee',
+	transform: 'translateX(-0.5em)'
+}}>
 	<a name={ key() } />
 	{ traverse() }
 </div>);
@@ -135,14 +155,18 @@ xp.register('self::head[parent::vcnote or parent::wfcnote or parent::scrap]', ({
  */
 // Use a secondary Experience to render the document as a hierarchical table of contents
 const toc = new Experience();
-toc.register(divXpathTest, ({ key, query, traverse, node }) => <li key={ key() + '-item' }>
-	<a href={ '#' + key() } target='_self'>
-		{ getDivNumber(node()) + ' ' }{ query('string(./head)') }
-	</a>
+toc.register('self::body', ({ traverse }) => traverse());
+toc.register(isDivElement, ({ key, query, traverse, node }) => <li key={ key() + '-item' }>
+	<p style={{ margin: 0 }}>
+		{ getDivNumber(node()) + ' ' }
+		<a href={ '#' + key() } target='_self'>
+			{ query('string(./head)') }
+		</a>
+	</p>
 	{
-		query(`boolean(./*[${divXpathTest}])`) ?
+		query(`boolean(./*[${isDivElement}])`) ?
 			<ul key={ key() + '-list' }>
-				{ traverse(`./*[${divXpathTest}]`) }
+				{ traverse(`./*[${isDivElement}]`) }
 			</ul> :
 			null
 	}
@@ -153,7 +177,7 @@ xp.register('self::spec', ({ key, traverse, query }) => <div key={ key() }>
 	<div>
 		<h1>Table of contents</h1>
 		<ul>
-			{ query('./body/div1').map(node => toc.render(node)) }
+
 		</ul>
 	</div>
 	{ traverse('./body') }

@@ -1,5 +1,11 @@
+/**
+ * Transforms an XML document to a syntax highlighted source code view. This is not a code demonstration, but is used as
+ * the "source" tab in the UI.
+ */
+
 import React from 'react';
 import Experience from 'xml-renderer';
+import flatEarthExperience from './flatEarthExperience';
 
 const stylesPerCodePart = {
 		comment: { color: '#aaa' },
@@ -21,11 +27,7 @@ const stylesPerCodePart = {
 			}, stylesPerCodePart[name])
 		}), {});
 
-const experience = new Experience();
-
-experience.register('self::node()', ({ traverse }) => traverse());
-
-experience.register('self::text()', ({ node }) => node().nodeValue);
+const experience = new Experience(flatEarthExperience);
 
 experience.register('self::element()', ({ traverse, key, query, node, open, resolve }) => {
 	const isSelfClosing = query('boolean(not(child::node()))');

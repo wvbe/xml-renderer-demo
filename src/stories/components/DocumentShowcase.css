@@ -1,4 +1,8 @@
-html, body, #root {
+/**
+ * Make the tabs in each story look okay, mimick some Storybook styles to do it.
+ */
+
+ html, body, #root {
 	height: 100%;
 	width: 100%;
 	margin: 0;
