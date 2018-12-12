@@ -5,11 +5,34 @@
  *
  * Also, will not make the same fetch twice.
  */
-
-import RenderedDocument, { withAsyncDocumentLoader } from '../../components/RenderedDocument';
-import { withCatch } from '../../components/RenderedError';
+import './DocumentFromPublicDir.css';
+import React from 'react';
+import { withAsyncDocumentLoader } from '../../components/RenderedDocument';
+import RenderedXml from '../../components/RenderedXml';
+import RenderedError, { withCatch } from '../../components/RenderedError';
 
 const cacheResponseByDocumentId = {};
+
+function StorybookRenderedDocument ({
+	documentId,
+	documentError,
+	documentContent,
+	documentIsLoading,
+	forceDocumentIsLoading,
+	...additionalProps
+}) {
+	if (forceDocumentIsLoading || documentIsLoading) {
+		// Returning <div> or anyother default may briefly confuse
+		// React if this document is "conreffed" inside a table
+		return <div className='loader' />;
+	}
+
+	if (documentError) {
+		return <RenderedError {...documentError} documentId={documentId} />;
+	}
+
+	return <RenderedXml {...additionalProps} xml={ documentContent } />;
+};
 
 export default withAsyncDocumentLoader(
 	(documentId) => cacheResponseByDocumentId[documentId] ?
@@ -20,5 +43,5 @@ export default withAsyncDocumentLoader(
 				cacheResponseByDocumentId[documentId] = { documentId, content };
 				return cacheResponseByDocumentId[documentId];
 			}),
-	withCatch(RenderedDocument));
+	withCatch(StorybookRenderedDocument));
 

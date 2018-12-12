@@ -8,9 +8,10 @@ export default function RenderedDocument ({
 	documentError,
 	documentContent,
 	documentIsLoading,
+	forceDocumentIsLoading,
 	...additionalProps
 }) {
-	if (documentIsLoading) {
+	if (forceDocumentIsLoading || documentIsLoading) {
 		// Returning <div> or anyother default may briefly confuse
 		// React if this document is "conreffed" inside a table
 		return null;

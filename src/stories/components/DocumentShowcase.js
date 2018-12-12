@@ -15,13 +15,20 @@ export default class DocumentShowcase extends Component {
 	];
 
 	state = {
-		activeWindow: 'render'
+		showSpinner: true,
+		activeWindow: null,
+		activeTab: 'render'
 	};
 
 	switchToTab (tab) {
 		this.setState({
+			showSpinner: true,
+			activeTab: tab,
+			activeWindow: null
+		}, () => setTimeout(() => this.setState({
+			showSpinner: false,
 			activeWindow: tab
-		});
+		}), 100));
 	}
 
 	getContentForTab = (tabName) => {
@@ -32,25 +39,30 @@ export default class DocumentShowcase extends Component {
 				return <DocumentFromPublicDir
 					documentId={ documentId }
 					experience={ sourceViewExperience }
+					forceDocumentIsLoading={ this.state.showSpinner }
 				/>;
 
 			case 'render':
 				return <DocumentFromPublicDir
 					documentId={ documentId }
 					experience={ experience || flatEarthExperience }
+					documentIsLoading={ this.state.showSpinner || undefined }
 				/>;
 
 			default:
-				return <p>Please select a tab!</p>;
+				return <div className='loader' />;
 		}
 	}
 
+	componentDidMount () {
+		this.switchToTab('render');
+	}
 	render () {
 		return <div className='document-showcase-root'>
 			<div className='document-showcase-tabs'>
 				{ this.tabs.map(tab => <div
 					key={ tab }
-					className={ tab === this.state.activeWindow ? 'selected' : null }
+					className={ tab === this.state.activeTab ? 'selected' : null }
 					onClick={ () => this.switchToTab(tab) }
 				>{ tab }</div>) }
 			</div>
