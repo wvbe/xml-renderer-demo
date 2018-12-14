@@ -2,7 +2,8 @@
 
 import React, { PureComponent } from 'react';
 
-export default function RenderedError ({ documentId, message, stack, code, componentStack }) {
+export default function RenderedError ({ documentId, error, ...restProps }) { //documentId, message, stack, code, componentStack }) {
+	const e = error || restProps;
 	return <div>
 		<h1>ERROR</h1>
 		{
@@ -11,13 +12,13 @@ export default function RenderedError ({ documentId, message, stack, code, compo
 				<p>An error occurred.</p>
 		}
 
-		{ message && <p><b>{message}</b></p> || null }
+		{ e.message && <p><b>{e.message}</b></p> || null }
 
-		{ code && <p><b>Code: {code}</b></p> || null }
+		{ e.code && <p><b>Code: {e.code}</b></p> || null }
 
-		{ stack && <pre>{stack}</pre> || null }
+		{ e.stack && <pre>{e.stack}</pre> || null }
 
-		{ componentStack && <pre>{componentStack}</pre> || null }
+		{ e.componentStack && <pre>{e.componentStack}</pre> || null }
 	</div>;
 }
 
@@ -43,7 +44,7 @@ export function withCatch (Comp) {
 		render () {
 			if (this.state.error && this.unseen) {
 				this.unseen = false;
-				return <RenderedError {...this.state.error} />
+				return <RenderedError documentId={ this.props.documentId } {...this.state.error} />
 			}
 
 			return <Comp {...this.props} />;

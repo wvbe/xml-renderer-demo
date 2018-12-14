@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 
 import DocumentFromPublicDir from './DocumentFromPublicDir';
 import sourceViewExperience from '../sourceViewExperience';
+import Spinner from '../../styling/Spinner';
 
 export default class DocumentShowcase extends Component {
 	tabs = [
@@ -50,7 +51,7 @@ export default class DocumentShowcase extends Component {
 				/>;
 
 			default:
-				return <div className='loader' />;
+				return <Spinner />;
 		}
 	}
 
@@ -65,6 +66,7 @@ export default class DocumentShowcase extends Component {
 					className={ tab === this.state.activeTab ? 'selected' : null }
 					onClick={ () => this.switchToTab(tab) }
 				>{ tab }</div>) }
+				{ this.props.documentId }
 			</div>
 			<div className='document-showcase-content'>
 				<div>

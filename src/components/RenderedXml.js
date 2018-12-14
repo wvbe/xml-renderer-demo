@@ -4,10 +4,12 @@ import parser from 'slimdom-sax-parser';
 import RenderedNode from './RenderedNode';
 
 export default function RenderedXml ({ xml, ...additionalProps }) {
-	try {
-		parser.sync(xml.toString().trim());
-	} catch (e) {
-		throw e;
-	}
-	return <RenderedNode { ...additionalProps } node={ parser.sync(xml.toString().trim()) } />;
+	const xmlString = xml
+		.toString()
+		// .replace(/\<\?xml.+\?\>/s, '')
+		// .replace(/\<\!--.+-->/s, '')
+		// .replace(/\<\!DOCTYPE.+]\>/s, '')
+		.trim();
+	console.log('xmlString', xmlString.substr(0, 128))
+	return <RenderedNode { ...additionalProps } node={ parser.sync(xmlString) } />;
 };

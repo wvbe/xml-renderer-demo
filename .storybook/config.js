@@ -52,7 +52,7 @@ addDecorator(
      *   /\/|\./ - split by `/` or `.`
      * @type {Regex}
      */
-    hierarchySeparator: null,
+    hierarchySeparator: ' ',
     /**
      * regex for finding the hierarchy root separator
      * @example:
@@ -79,4 +79,4 @@ addDecorator(
   })
 );
 
-configure(() => require('../src/stories'), module);
+configure(() => require('../src/storybook'), module);

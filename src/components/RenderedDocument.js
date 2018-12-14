@@ -116,6 +116,7 @@ export function withAsyncDocumentLoader (getDocument, DocumentComponent) {
 		render () {
 			const { content, error, loading } = this.state;
 
+
 			return <DocumentComponent
 				{ ...this.props }
 				documentContent={ error ? null : content }
